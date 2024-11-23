@@ -1,0 +1,7 @@
+dataset,total_count
+load_iris,2640
+load_diabetes,2744
+load_digits,1552
+load_linnerud,544
+load_wine,868
+load_breast_cancer,1436
