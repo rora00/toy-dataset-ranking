@@ -18,3 +18,6 @@ The output will be generated as a .csv file.
 
 ## Methodology
 The popularity of a dataset e.g. [Iris](https://scikit-learn.org/1.5/auto_examples/datasets/plot_iris_dataset.html) is estimated by finding the number of repositories where the dataset is loaded. This is currently implemented for datasets within python sklearn and base R. The exact query can be found within `query_api.py`. Note that the search uses Github Search API and results may differ from Github's Blackbird UI search.
+
+## Results on sklearn dataset
+![scikit-learn Dataset Usage in Github Repositories](plot.png "scikit-learn Dataset Usage in Github Repositories")
