@@ -8,6 +8,11 @@ from dotenv import load_dotenv
 
 
 def query_sklearn_datasets(token: str):
+    """Counts unique repositories where sklearn datasets are imported using Github search API and writes data to csv
+
+    Args:
+        token (str): Github personal access token
+    """
     datasets = [
         "load_iris",
         "load_diabetes",
@@ -62,6 +67,11 @@ def query_sklearn_datasets(token: str):
 
 
 def query_r_datasets(token: str):
+    """Counts unique repositories where base R datasets are loaded using Github search API and writes data to csv
+
+    Args:
+        token (str): Github personal access token
+    """
     # Read the JSON file
     with open("r_datasets_list.json", "r") as f:
         datasets_list = json.load(f)
@@ -149,9 +159,10 @@ if __name__ == "__main__":
 
     # Sets token if exists and queries github
     token = os.getenv("GITHUB_TOKEN")
-    if not token:
-        print("Error: GITHUB_TOKEN environment variable is not set.")
-    else:
+
+    if token:
         print("GitHub token retrieved!")
         query_sklearn_datasets(token)
         query_r_datasets(token)
+    else:
+        print("Error: GITHUB_TOKEN environment variable is not set.")
