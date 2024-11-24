@@ -4,36 +4,7 @@ import json
 import time
 import os
 import csv
-
-
-def load_env_file(env_file=".env"):
-    """Loads environment variables from a .env file"""
-    try:
-        with open(env_file, "r") as file:
-            for line in file:
-                # Remove leading/trailing whitespace
-                line = line.strip()
-
-                # Skip empty lines and comments
-                if not line or line.startswith("#"):
-                    continue
-
-                # Split the line into key and value (first '=' only)
-                if "=" in line:
-                    key, value = line.split("=", 1)
-
-                    # Remove any surrounding quotes from key and value
-                    key = key.strip().strip("'\"")
-                    value = value.strip().strip("'\"")
-
-                    # Set the environment variable
-                    os.environ[key] = value
-                else:
-                    print(f"Skipping invalid line: {line}")
-    except FileNotFoundError:
-        print(f"Error: The file '{env_file}' was not found.")
-    except Exception as e:
-        print(f"Error loading environment variables: {e}")
+from dotenv import load_dotenv
 
 
 def query_sklearn_datasets(token: str):
@@ -47,7 +18,9 @@ def query_sklearn_datasets(token: str):
     ]
 
     # Open the CSV file in write mode, creating a new file or overwriting if it exists
-    with open("sklearn_datasets_counts.csv", mode="w", newline="", encoding="utf-8") as file:
+    with open(
+        "sklearn_datasets_counts.csv", mode="w", newline="", encoding="utf-8"
+    ) as file:
         writer = csv.writer(file)
 
         # Write the header row to the CSV file
@@ -84,9 +57,9 @@ def query_sklearn_datasets(token: str):
             total_count = data.get("total_count", 0)
             print(f"{dataset}: {total_count}")
 
-
             # Write the result to the CSV file
             writer.writerow([dataset, total_count])
+
 
 def query_r_datasets(token: str):
     # Read the JSON file
@@ -111,7 +84,9 @@ def query_r_datasets(token: str):
             query = f"data({dataset}) extension:r"
 
             # URL-encode the query string
-            query_url = "https://api.github.com/search/code?q=" + urllib.parse.quote(query)
+            query_url = "https://api.github.com/search/code?q=" + urllib.parse.quote(
+                query
+            )
 
             # Number of retry attempts
             max_attempts = 10
@@ -170,10 +145,10 @@ def query_r_datasets(token: str):
 
 if __name__ == "__main__":
     # Load environment variables from the .env file
-    load_env_file()
+    load_dotenv()
 
     # Sets token if exists and queries github
-    token = os.environ.get("GITHUB_TOKEN")
+    token = os.getenv("GITHUB_TOKEN")
     if not token:
         print("Error: GITHUB_TOKEN environment variable is not set.")
     else:
